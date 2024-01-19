@@ -6,6 +6,7 @@ import requests
 NODE_EXTRACTION_URL = os.getenv('NODE_EXTRACTION_URL')
 AUTH_HEADER = os.getenv('AUTH_HEADER')
 
+
 BUCKET_NAME = os.getenv('BUCKET_NAME')
 
 BUCKET_REGION = os.getenv('BUCKET_REGION')
