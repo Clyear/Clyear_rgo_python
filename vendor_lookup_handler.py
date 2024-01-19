@@ -7,7 +7,7 @@ def handle(supplier_email, subscriber_email):
     
 def lookup_supplier(supplier_email, subscriber_email):
     lookup_response_http = requests.get(
-        url = f'{utils.FIND_SUPPLIER_URL}',
+        url = f'{utils.FIND_VENDOR_URL}',
         params = {
             'supplierEmail': supplier_email,
             'subscriberEmail': subscriber_email
