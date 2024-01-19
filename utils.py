@@ -1,85 +1,68 @@
-import os 
-import json 
-import requests 
+import os
 
 # Environment variables
-NODE_EXTRACTION_URL = os.getenv('NODE_EXTRACTION_URL')
-AUTH_HEADER = os.getenv('AUTH_HEADER')
-
 BUCKET_NAME = os.getenv('BUCKET_NAME')
-
 BUCKET_REGION = os.getenv('BUCKET_REGION')
+NODE_EXTRACTION_URL = os.getenv('NODE_EXTRACTION_URL')
+ML_REST_URL = os.getenv('ML_REST_URL')
+AUTH_HEADER = os.getenv('AUTH_HEADER')
+OIS_BASIC_AUTH = (os.getenv('OIS_UNAME'), os.getenv('OIS_PWD'))
 
 # Supportive constants
 S3_HOME = f'https://{BUCKET_NAME}.s3.amazonaws.com/'
+DEFAULT_VENDOR_NAME = 'N/A'
+CUSTOMER_LOOKUP_SERVICE_TYPE = 'LOOKUP'
 
-# Node APIs
-FIND_SUPPLIER_URL = f'{NODE_EXTRACTION_URL}/invoice/getSupplierDetails'
-EXCEPTION_NOTIFY_URL = f'{NODE_EXTRACTION_URL}/invoice/invoiceErrorHandle'
+# Node V2 APIs
+UPDATE_INVOICE_URL = f'{NODE_EXTRACTION_URL}/invoice/updateInvoice'
+INVOICE_LINE_ITEMS_URL = f'{NODE_EXTRACTION_URL}/invoice/saveInvoiceExpenses'
+FETCH_INVOICE_URL = f'{NODE_EXTRACTION_URL}/invoice/getInvoiceByJobId?analysisJobId='
+SAVE_INVOICE_LABEL_URL = f'{NODE_EXTRACTION_URL}/invoice/saveExtractedLabels'
+GET_VENDOR_LIST_URL = f'{NODE_EXTRACTION_URL}/invoice/getVendorList?customerId='
+GET_CUSTOMER_ERP_URL = f'{NODE_EXTRACTION_URL}/invoice/getCustomerERPDetails?customerId='
+GET_INVOICE_URL = f'{NODE_EXTRACTION_URL}/invoice/getInvoiceById?invoiceId='
 
-# Node API Header
+# Node V2 API Header
 API_V2_HEADER = {
     'authorization': AUTH_HEADER,
     'Content-Type': 'application/json'
 }
 
-# make update API call with filepath and error messages to show failure in lambda
-def notify_backend_on_failure(senderEmail, msg, code, filePath,receiverEmail):
-    print(f'Notifying backend on failure of {filePath}')
-    data = { 
-        'isSuccess': False, 
-        'errorMessage': msg, 
-        'errorCode': code,
-        'senderEmail': senderEmail, 
-        'filePath': filePath,
-        "receiverEmail":receiverEmail 
-    }
-    response = requests.put(url = EXCEPTION_NOTIFY_URL, data=json.dumps(data), headers= API_V2_HEADER)
-    print(f'Notified backend: {response}')
-    print(f'request: {data}')
+# ML Rest APIs
+DETECT_ENTITIES_URL = f'{ML_REST_URL}/live_detect_entities/'
+IDENTIFY_SUPPLIER_URL = f'{ML_REST_URL}/vendor/unseen/'
+
+# Supportive functions
+def get_http_s3_path(text_json_path):
+    return f'https://{BUCKET_NAME}.s3.amazonaws.com/{text_json_path}'
+
+
+### default currency list
+
+currencylist=['MXN','PHP','BRL']
+
+
+currencylist1=['MXN','PHP','BRL','USD','EUR','GBP','CAD','INR','JPY','CHF','AUD','CNY','BZR','SEK','HKD','CA']
 
 
 
 
-def notify_backend_on_failure1(receiverEmail, msg, code, filePath,subjects,from_email,emailreceviestime):
-    print(f'Notifying backend on failure of {filePath}')
-    # timezome='US/Eastern'
 
-    # est=pytz.timezone(timezome)
+taxKeyList=['tax total', 'total tax:', 'sales tax', 'tax', 'taxes and surcharges', 'vat', 'vat', 'taxamount', 'taxamount', 'tax', 'tax',  'tax amount', 'tax amount', 'taxes', 'taxes', 'taxes', 'taxation', 'taxation', 'taxation', 'tax-value',  'sales tax', 'sales tax amount', 'total tax', 'effective tax', 'effective tax amount', 'combined tax', 'taxrate', 'tax rate', 'tax rate', 'tax rate', 'tax rate', 'taxrate', 'taxrate', 'taxrate', 'tax percentage', 'taxpercentage', 'tax percentage', 'sales tax rate', 'average local tax rate', 'state tax rate', 'base tax rate', 'state vat', 'state sales tax', 'municipal tax rate', 'country tax rate', 'local sales tax', 'combined tax rate', 'total tax rate', 'effective tax rate', 'state tax', 'vat rate', 'vat%', 'sales tax($)', 'tax($)']
+gstlist=["gst",'gst tax','gst', 'igst','gst tax', 'gst tax']
 
-    # print(datetime.now(est))
-    # receivedTime=datetime.now(est)
-    data = { 
-        'isSuccess': False, 
-        'errorMessage': msg, 
-        'errorCode': code,
-        'receivedTime':str(emailreceviestime),
-        'timeZone':'EST',
-        'emailSubject':subjects,
-        'senderEmail':from_email,
-        
-        
-        'filePath': filePath ,
-        'receiverEmail': receiverEmail
-    }
-    response = requests.put(url = EXCEPTION_NOTIFY_URL, data=json.dumps(data), headers= API_V2_HEADER)
-    print(f'Notified backend: {response}')
-    print(f'request: {data}')
+pstlist=["pst",'PST']
 
 
-file_extensions = [
-    ".txt", ".doc", ".docx", ".pdf",
-    ".xls", ".xlsx", ".csv",
-    ".ppt", ".pptx",
-    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg",
-    ".mp3", ".wav", ".ogg",
-    ".mp4", ".avi", ".mkv",
-    ".zip", ".rar", ".tar.gz", ".7z",
-    ".c", ".cpp", ".java", ".py", ".html", ".css", ".js",
-    ".db",
-    ".exe", ".app", ".sh",
-    ".ttf", ".otf",
-    ".dll", ".sys", ".conf",
-    ".epub", ".mobi",
-    ".json", ".xml"
-]
+
+
+
+
+
+
+
+
+
+
+
+
