@@ -95,14 +95,7 @@ def extraction_engine_handler(event, context):
         print('getiing_invoicedata',getiing_invoicedata)
         getiing_invoicedata['invConfidenceLevel']=float(get_the_confidence)
         
-        # try:
-        #     invoiceCurrency=currency_extraction.handle(save_invoice_event)
-        #     if invoiceCurrency:
-        #         getiing_invoicedata['invoiceCurrency']=invoiceCurrency
-                
-            
-        # except Exception as e:
-        #     logging.exception(e)
+   
         
         response_update_confidence = requests.put(utils.UPDATE_INVOICE_URL, data = json.dumps(getiing_invoicedata), headers = utils.API_V2_HEADER)
         print(response_update_confidence)

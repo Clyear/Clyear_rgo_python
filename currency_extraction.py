@@ -84,7 +84,7 @@ def gettextractcurrency(invoicedata):
     
     filename=invoicedata.get('filePath',None)
     if filename:
-        filename=filename.replace('https://apar-invoice.s3.amazonaws.com','')
+        filename=filename.replace(f'https://{utils.BUCKET_NAME}.s3.amazonaws.com','')
         getjobid=analyse_expense(filename)
         listenanalysis=listen_expense_analysis(getjobid)
         
@@ -124,8 +124,8 @@ def analyse_expense(filename):
     expense_response = textract_client.start_expense_analysis(
         DocumentLocation = document_location,
         NotificationChannel = {
-            "SNSTopicArn": "arn:aws:sns:us-east-1:328326462997:AmazonTextractDocumentAnalysis",
-            "RoleArn": "arn:aws:iam::328326462997:role/AWSTextract-SNSPublishRole"
+            "SNSTopicArn": "arn:aws:sns:us-east-1:637423465315:AmazonTextractDocumentAnalysis",
+            "RoleArn": "arn:aws:iam::637423465315:role/AWSTextract-SNSPublishRole"
         }
       
     )

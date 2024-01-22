@@ -162,8 +162,8 @@ def analyse_expense(document_name):
     expense_response = textract_client.start_expense_analysis(
         DocumentLocation = document_location,
         NotificationChannel = {
-            "SNSTopicArn": "arn:aws:sns:us-east-1:334397713756:Currencylistener",
-            "RoleArn": "arn:aws:iam::334397713756:role/AWS-TextractionCurrency-SNS"
+            "SNSTopicArn": "arn:aws:sns:us-east-1:637423465315:Currencylistener",
+            "RoleArn": "arn:aws:iam::637423465315:role/AWS-TextractionCurrency-SNS"
         }
     )
     expense_job_id = expense_response.get('JobId')
