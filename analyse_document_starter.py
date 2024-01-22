@@ -47,8 +47,8 @@ def analyse_document(document_name):
         DocumentLocation = document_location,
         FeatureTypes = ['FORMS'],
         NotificationChannel = {
-            "SNSTopicArn": "arn:aws:sns:us-east-1:334397713756:AmazonTextractDocumentAnalysis",
-            "RoleArn": "arn:aws:iam::334397713756:role/AWSTextract-SNSPublishRole"
+            "SNSTopicArn": "arn:aws:sns:us-east-1:637423465315:AmazonTextractDocumentAnalysis",
+            "RoleArn": "arn:aws:iam::637423465315:role/AWSTextract-SNSPublishRole"
         }
     )
     document_job_id = document_response.get('JobId')
