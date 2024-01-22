@@ -13,7 +13,7 @@ def handler(event,context):
     if event['requestContext']['httpMethod']=='OPTIONS':
         return  response
     
-    BUCKET_NAME= "cylear-invoices"
+    BUCKET_NAME= "cylear-rgo-invoices"
     
     DEFAULT_VALUE = 'N/A'
     
