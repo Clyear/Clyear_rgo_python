@@ -4,6 +4,7 @@ import utils
 import requests
 import boto3
 import logging
+import get_invoice_handler
 
 def handle(event):
     # print(event,'checkeven')
@@ -110,9 +111,11 @@ def set_entity_value(record, entity, value):
 
 def save_expense_item(filepath, expense_item_data,event):
     print('event check',event)
-    invoiceAmount=event.get('invoiceAmount',0)
-    taxTotal=event.get('taxTotal',0)
-    subTotal=event.get('subTotal',0)
+    invoiceId=event.get('invoiceId')
+    invoiceData=get_invoice_handler.get_invoiceby(invoiceId)
+    invoiceAmount=invoiceData.get('invoiceAmount',0)
+    taxTotal=invoiceData.get('taxTotal',0)
+    subTotal=invoiceData.get('subTotal',0)
     # if not invoiceAmount and not taxAmount :
     #     invoiceAmount=0
     #     taxTotal=0
