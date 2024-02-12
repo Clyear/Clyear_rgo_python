@@ -15,7 +15,7 @@ from datetime import datetime,timedelta
 
 from PIL import Image
 from io import BytesIO
-
+import getOrgHandler
 logger = logging.getLogger()
 
 # TODO Move the business logic out of lambda handler
@@ -24,7 +24,11 @@ def handle(event, context):
     print(event)
     
     ses_event = event['Records'][0]['ses']
-
+    getDestinationEmail=ses_event['mail']['destination']
+    checkOrg=getOrgHandler.getOrgId(getDestinationEmail)
+    print(checkOrg,'checkOrg')
+    if not checkOrg:
+        return 
     message_id = ses_event['mail']['messageId']
     from_email = ses_event['mail']['source']
     to_email = ses_event['receipt']['recipients'][0]
