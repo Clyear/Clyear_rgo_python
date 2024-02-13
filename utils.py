@@ -16,6 +16,7 @@ S3_HOME = f'https://{BUCKET_NAME}.s3.amazonaws.com/'
 # Node APIs
 FIND_SUPPLIER_URL = f'{NODE_EXTRACTION_URL}/invoice/getSupplierDetails'
 EXCEPTION_NOTIFY_URL = f'{NODE_EXTRACTION_URL}/invoice/invoiceErrorHandle'
+GET_ORG_DETAIL = f'{NODE_EXTRACTION_URL}/common/getOrgDetails?receiverEmail='
 
 # Node API Header
 API_V2_HEADER = {
