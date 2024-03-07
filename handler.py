@@ -18,7 +18,8 @@ def handle(event, context):
         invoice_response = create_invoice(invoice_data)
     else:
         invoice_response = update_invoice(invoice_data)
-    
+
+
     if invoice_response.status_code != 200:
         errorMsg = 'Failed to create/update invoice'
         utils.notify_backend_on_failure(invoice_data.get('senderEmail'),  errorMsg, 'E0003',invoice_data.get('filepath'),invoice_data.get('receiverEmail'))
@@ -32,7 +33,11 @@ def handle(event, context):
         if invoicesource=='Email':
             receiverEmail=event.get('receiverEmail',None)
             refreshData={'receiverEmail':receiverEmail,'tag':'getInvoiceList','payload':'payload','invoiceId':invoiceId}
+
+        elif  invoicesource=='Vendor Portal':
+            receiverEmail=event.get('receiverEmail',None)
             
+            refreshData={'orgId':orgId,'receiverEmail':receiverEmail,'tag':'getInvoiceList','payload':'payload','invoiceId':invoiceId}            
         else:
             refreshData={'orgId':orgId,'tag':'getInvoiceList','payload':'payload','invoiceId':invoiceId}
         print(refreshData,'refreshData')
